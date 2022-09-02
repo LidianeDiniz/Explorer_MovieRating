@@ -4,16 +4,9 @@ const UsersController = require('../Controllers/UsersController')
 
 const usersRouter = Router()
 
-
-function myMiddleware(request, response, next){
-    console.log('Inside the middleware')
-
-    next()
-}
-
 const userController = new UsersController();
 
-usersRouter.use(myMiddleware);
 usersRouter.post('/', userController.create)
+usersRouter.put('/:id', userController.update)
 
 module.exports = usersRouter
