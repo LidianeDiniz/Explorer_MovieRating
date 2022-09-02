@@ -1,15 +1,19 @@
 const  { Router } = require('express')
 
+const UsersController = require('../Controllers/UsersController')
+
 const usersRouter = Router()
 
-usersRouter.post('/', (request, response) => {
-    const { name, email, password } = request.body
 
-    response.send(`
-    -Username: ${name}
-    -Email: ${email} 
-    -Password: ${password}
-    `)
-})
+function myMiddleware(request, response, next){
+    console.log('Inside the middleware')
+
+    next()
+}
+
+const userController = new UsersController();
+
+usersRouter.use(myMiddleware);
+usersRouter.post('/', userController.create)
 
 module.exports = usersRouter
