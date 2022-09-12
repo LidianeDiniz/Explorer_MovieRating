@@ -32,6 +32,14 @@ class NotesController{
 
         return response.json(note)
     }
+
+    async delete(request, response){
+        const { id } = request.params
+
+        await knex('movie_notes').where({ id }).delete()
+
+        return response.json(note)
+    }
 }
 
 module.exports = NotesController
