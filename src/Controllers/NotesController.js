@@ -40,6 +40,14 @@ class NotesController{
 
         return response.json(note)
     }
+
+    async index(request, response){
+        const { id } = request.query
+
+        const notes = await knex('movie_notes').where({ id }).orderBy("title")
+
+        return response.json(notes)
+    }
 }
 
 module.exports = NotesController
