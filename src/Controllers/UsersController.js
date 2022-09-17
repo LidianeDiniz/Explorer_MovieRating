@@ -23,7 +23,7 @@ class UsersController {
     async update(request, response) {
         const {name, email, password, old_password} = request.body
         const user_id = request.user.id
-
+        
         const database = await sqliteConnection()
         const user = await database.get("SELECT * FROM users WHERE id = (?)", [user_id])
 
@@ -39,6 +39,7 @@ class UsersController {
 
         user.name = name ?? user.name
         user.email = email ?? user.email
+        user.avatar = avatar ?? user.avatar
 
         if(password && !old_password) {
             throw new AppError('Old password is required')
@@ -58,7 +59,7 @@ class UsersController {
         name = ?,
         email = ?,
         password = ?,
-        updated_at = DATETIME('now')
+        updated_at = DATETIME('now'),
         WHERE id = ?`,
         [user.name, user.email, user.password, user_id]
         )
