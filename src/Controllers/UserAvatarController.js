@@ -2,7 +2,7 @@ const knex = require('../database/knex')
 const AppError = require('../utils/AppError')
 const DiskStorage = require('../providers/DiskStorage')
 
-class UserAvatarControler {
+class UserAvatarController {
     async update(request, response) {
         const { user_id } = request.user.id
 
@@ -10,7 +10,7 @@ class UserAvatarControler {
         
         const avatarFileName = request.file.filename
 
-        const user = await knex('user')
+        const user = await knex('users')
         .where({ id: user_id }).first()
 
         if(!user){
@@ -30,4 +30,4 @@ class UserAvatarControler {
     }
 }
 
-module.exports = UserAvatarControler
+module.exports = UserAvatarController
