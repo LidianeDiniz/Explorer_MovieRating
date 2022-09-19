@@ -39,7 +39,6 @@ class UsersController {
 
         user.name = name ?? user.name
         user.email = email ?? user.email
-        user.avatar = avatar ?? user.avatar
 
         if(password && !old_password) {
             throw new AppError('Old password is required')
@@ -59,10 +58,11 @@ class UsersController {
         name = ?,
         email = ?,
         password = ?,
-        updated_at = DATETIME('now'),
+        updated_at = DATETIME('now')
         WHERE id = ?`,
-        [user.name, user.email, user.password, user_id]
+        [user.name, user.email, user.password, user.id]
         )
+
 
         return response.status(200).json()
     }
