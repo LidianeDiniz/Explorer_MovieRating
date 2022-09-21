@@ -29,8 +29,12 @@ class NotesController{
         const { id } = request.params
 
         const note = await knex('movie_notes').where({ id }).first()
+        const tags = await knex('movie_tags').where({ note_id: id }).orderBy('tag_name')
 
-        return response.json(note)
+        return response.json({
+            ...note,
+            tags
+        })
     }
 
     async delete(request, response){
@@ -56,11 +60,14 @@ class NotesController{
                 'movie_notes.title',
                 'movie_notes.id',
                 'movie_notes.user_id',
+                'movie_notes.description',
+                'movie_notes.rating'
             ])
             .where('movie_notes.user_id', user_id)
             .whereLike('movie_notes.title', `%${title}%`)
             .whereIn('tag_name', filteredTags)
             .innerJoin('movie_notes', 'movie_notes.id', 'movie_tags.note_id')
+            .groupBy('movie_notes.id')
             .orderBy('movie_notes.title')
 
         } else {

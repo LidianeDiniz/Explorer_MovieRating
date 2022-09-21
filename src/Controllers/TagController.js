@@ -7,6 +7,7 @@ class TagsController {
 
         const tags = await knex('movie_tags')
         .where({ user_id })
+        .groupBy('tag_name')
 
         return response.json(tags)
 
